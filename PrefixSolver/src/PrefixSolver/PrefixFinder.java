@@ -18,13 +18,16 @@ public class PrefixFinder {
     }
 
     private static <T> List<T> findCommonPrefix(Iterator<T> iter1, Iterator<T> iter2, Comparator<? super T> cmp) {
+
         //ArrayList is preferred to LinkedList since appending to lists should be O(1)
         List<T> prefix = new ArrayList<>();
 
-        while (bothIteratorsHaveNextElem(iter1, iter2)) {
-            T elem = iter1.next();
-            if (cmp.compare(elem, iter2.next()) == 0) {
-                prefix.add(elem);
+        while (bothIteratorsHaveNextElement(iter1, iter2)) {
+            T elem1 = iter1.next();
+            T elem2 = iter2.next();
+
+            if (elementsAreEqual(elem1, elem2, cmp)) {
+                prefix.add(elem1);
             } else {
                 break;
             }
@@ -33,7 +36,11 @@ public class PrefixFinder {
         return prefix;
     }
 
-    private static <T> boolean bothIteratorsHaveNextElem(Iterator<T> iter1, Iterator<T> iter2) {
+    private static <T> boolean bothIteratorsHaveNextElement(Iterator<T> iter1, Iterator<T> iter2) {
         return iter1.hasNext() && iter2.hasNext();
+    }
+
+    private static <T> boolean elementsAreEqual(T elem1, T elem2, Comparator<? super T> cmp) {
+        return cmp.compare(elem1, elem2) == 0;
     }
 }
