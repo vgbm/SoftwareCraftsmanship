@@ -15,11 +15,11 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
     private final Integer version;
     private final List<Connector.Type> connectorList;
 
-    public AbstractDevice(Integer productCode, BigInteger serialNumber, Integer version, List<Connector.Type> connectorList) {
-        this.productCode = productCode;
-        this.serialNumber = serialNumber;
-        this.version = version;
-        this.connectorList = connectorList;
+    protected AbstractDevice(Builder<T> builder) {
+        this.productCode = builder.productCode;
+        this.serialNumber = builder.serialNumber;
+        this.version = builder.version;
+        this.connectorList = builder.connectorList;
     }
 
     @Override
@@ -71,8 +71,16 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
             connectorList = new ArrayList<>();
         }
 
-        T productCode (Integer productCode) {
-            this.productCode = productCode == null? Optional<Integer>().empty() : productCode;
+//        T productCode (Integer productCode) {
+//            this.productCode = productCode == null? Optional<Integer>().empty() : productCode;
+//        }
+
+        protected abstract T getThis();
+
+        protected List<Connector.Type> getConnectors() {
+            return connectorList;
         }
+
+        //void validate
     }
 }
