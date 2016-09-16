@@ -6,6 +6,8 @@ import java.util.Optional;
 
 /**
  * Created by james on 9/12/16.
+ *
+ * Represents a device using the UXB
  */
 public interface Device {
 

@@ -4,16 +4,22 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by james on 9/12/16.
+ *
+ * Provides the basic functionality and requirements for devices using the USB
  */
 public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Device {
 
-    private final Integer productCode;
-    private final BigInteger serialNumber;
     private final Integer version;
-    private final List<Connector.Type> connectorList;
+    private final Optional<Integer> productCode;
+    private final Optional<BigInteger> serialNumber;
+
+    //using a list of connectors rather than types because using the full connectors makes operations
+    //like getConnector easier to read and perform
+    private final List<Connector> connectorList;
 
     protected AbstractDevice(Builder<T> builder) {
         this.productCode = builder.productCode;
@@ -24,17 +30,17 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
 
     @Override
     public Optional<Integer> getProductCode() {
-        return null;
+        return productCode.isPresent() ? productCode : Optional.empty();
     }
 
     @Override
     public Optional<BigInteger> getSerialNumber() {
-        return null;
+        return serialNumber.isPresent() ? serialNumber : Optional.empty();
     }
 
     @Override
     public Integer getVersion() {
-        return null;
+        return version;
     }
 
     @Override
@@ -44,43 +50,67 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
 
     @Override
     public Integer getConnectorCount() {
-        return null;
+        return connectorList.size();
     }
 
     @Override
+    // returns a list of connectors
     public List<Connector.Type> getConnectors() {
-        return null;
+        return connectorList.stream()
+                .map(connector -> connector.getType())
+                .collect(Collectors.toList());
     }
 
     @Override
+    // returns the connector of the device at a given index
     public Connector getConnector(int index) {
-        return null;
+        return connectorList.stream()
+                .filter(connector -> connector.getIndex() == index)
+                .findFirst()
+                .get();
     }
 
     public static abstract class Builder<T> {
 
-        private Integer productCode;
-        private BigInteger serialNumber;
         private Integer version;
-        private List<Connector.Type> connectorList;
+        private Optional<Integer> productCode;
+        private Optional<BigInteger> serialNumber;
+        private List<Connector> connectorList;
 
         public Builder(Integer version){
             this.version = version;
-            productCode = null;
-            serialNumber = null;
+            productCode = Optional.empty();
+            serialNumber = Optional.empty();
             connectorList = new ArrayList<>();
         }
 
-//        T productCode (Integer productCode) {
-//            this.productCode = productCode == null? Optional<Integer>().empty() : productCode;
-//        }
+        public T productCode (Integer productCode) {
+            this.productCode = productCode == null ? Optional.empty() : Optional.of(productCode);
+            return getThis();
+        }
+
+        public T serialNumber (BigInteger serialNumber) {
+            this.serialNumber = serialNumber == null ? Optional.empty() : Optional.of(serialNumber);
+            return getThis();
+        }
+
+        public T connectors (List<Connector> connectors) {
+            //initializing connector list with connectors to prevent copying reference
+            this.connectorList = connectors == null ? new ArrayList<>() : new ArrayList<>(connectors);
+            return getThis();
+        }
 
         protected abstract T getThis();
 
         protected List<Connector.Type> getConnectors() {
-            return connectorList;
+            return connectorList.stream()
+                    .map(connector -> connector.getType())
+                    .collect(Collectors.toList());
         }
 
-        //void validate
+        protected void validate() {
+            if(version == null)
+                throw new NullPointerException("A version was not given for this device.");
+        }
     }
 }
