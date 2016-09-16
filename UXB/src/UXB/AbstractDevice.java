@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Created by james on 9/12/16.
@@ -16,10 +15,7 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
     private final Integer version;
     private final Optional<Integer> productCode;
     private final Optional<BigInteger> serialNumber;
-
-    //using a list of connectors rather than types because using the full connectors makes operations
-    //like getConnector easier to read and perform
-    private final List<Connector> connectorList;
+    private final List<Connector.Type> connectorList;
 
     protected AbstractDevice(Builder<T> builder) {
         this.productCode = builder.productCode;
@@ -56,18 +52,14 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
     @Override
     // returns a list of connectors
     public List<Connector.Type> getConnectors() {
-        return connectorList.stream()
-                .map(Connector::getType)
-                .collect(Collectors.toList());
+        return connectorList;
     }
 
     @Override
     // returns the connector of the device at a given index
     public Connector getConnector(int index) {
-        return connectorList.stream()
-                .filter(connector -> connector.getIndex() == index)
-                .findFirst()
-                .get();
+        Connector.Type connectorType = connectorList.get(index);
+        return new Connector(index, connectorType, this);
     }
 
     public static abstract class Builder<T> {
@@ -75,7 +67,7 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
         private Integer version;
         private Optional<Integer> productCode;
         private Optional<BigInteger> serialNumber;
-        private List<Connector> connectorList;
+        private List<Connector.Type> connectorList;
 
         public Builder(Integer version){
             this.version = version;
@@ -94,7 +86,7 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
             return getThis();
         }
 
-        public T connectors (List<Connector> connectors) {
+        public T connectors (List<Connector.Type> connectors) {
             //initializing connector list with connectors to prevent copying reference
             this.connectorList = connectors == null ? new ArrayList<>() : new ArrayList<>(connectors);
             return getThis();
@@ -103,14 +95,28 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
         protected abstract T getThis();
 
         protected List<Connector.Type> getConnectors() {
-            return connectorList.stream()
-                    .map(connector -> connector.getType())
-                    .collect(Collectors.toList());
+            return connectorList;
         }
 
         protected void validate() {
             if(version == null)
                 throw new NullPointerException("A version was not given for this device.");
+        }
+
+        public Integer getVersion() {
+            return version;
+        }
+
+        public Optional<Integer> getProductCode() {
+            return productCode;
+        }
+
+        public Optional<BigInteger> getSerialNumber() {
+            return serialNumber;
+        }
+
+        public List<Connector.Type> getConnectorList() {
+            return connectorList;
         }
     }
 }

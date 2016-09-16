@@ -1,6 +1,7 @@
 package UXB;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,17 +13,8 @@ import java.util.Optional;
  * */
 public class Hub extends AbstractDevice<Hub.Builder> {
 
-    private Integer version;
-    private Integer productCode;
-    private BigInteger serialNumber;
-    private List<Connector> connectorList;
-
     public Hub(Builder builder){
         super(builder);
-        this.version = builder.version;
-        this.productCode = builder.productCode.isPresent() ? builder.productCode.get() : null;
-        this.serialNumber = builder.serialNumber.isPresent() ? builder.serialNumber.get() : null;
-        this.connectorList = builder.connectorList;
     }
 
     @Override
@@ -30,36 +22,32 @@ public class Hub extends AbstractDevice<Hub.Builder> {
         return DeviceClass.HUB;
     }
 
-    public static class Builder extends AbstractDevice.Builder<Builder> {
 
-        private Integer version;
-        private Optional<Integer> productCode;
-        private Optional<BigInteger> serialNumber;
-        private List<Connector> connectorList;
+    public static class Builder extends AbstractDevice.Builder<Builder> {
 
         public Builder(Integer version){
             super(version);
-            this.productCode = Optional.empty();
-            this.serialNumber = Optional.empty();
-            connectorList = null;
         }
 
         public Hub build() {
 
             validate();
 
-            if(!hasAtLeastOneComputerOrPeripheral()) {
+            if(hasNullComponents()) {
                 throw new IllegalStateException("The hub is missing either a version or a connector type.");
             }
 
             return new Hub(this);
         }
 
-        private boolean hasAtLeastOneComputerOrPeripheral(){
-            return connectorList.stream()
-                    .anyMatch(connector -> connector.getType() == Connector.Type.COMPUTER || connector.getType() == Connector.Type.PERIPHERAL);
+        private boolean hasNullComponents() {
+            return getProductCode() == null || getSerialNumber() == null || !hasAtLeastOneComputerOrPeripheral();
         }
 
+        private boolean hasAtLeastOneComputerOrPeripheral(){
+            return getConnectorList().stream()
+                    .anyMatch(connector -> connector == Connector.Type.COMPUTER || connector == Connector.Type.PERIPHERAL);
+        }
         public Builder getThis() {
             return this;
         }
