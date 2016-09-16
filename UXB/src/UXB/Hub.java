@@ -30,23 +30,25 @@ public class Hub extends AbstractDevice<Hub.Builder> {
         }
 
         public Hub build() {
-
             validate();
-
-            if(hasNullComponents()) {
-                throw new IllegalStateException("The hub is missing either a version or a connector type.");
-            }
 
             return new Hub(this);
         }
 
-        private boolean hasNullComponents() {
-            return getProductCode() == null || getSerialNumber() == null || !hasAtLeastOneComputerOrPeripheral();
+        @Override
+        protected void validate() {
+            if(getVersion() == null || !hasAtLeastOneComputerAndPeripheral()) {
+                throw new IllegalStateException("Either the version is null or the hub has no connectors to computers or peripherals");
+            }
         }
 
-        private boolean hasAtLeastOneComputerOrPeripheral(){
-            return getConnectorList().stream()
-                    .anyMatch(connector -> connector == Connector.Type.COMPUTER || connector == Connector.Type.PERIPHERAL);
+        private boolean hasAtLeastOneComputerAndPeripheral(){
+            boolean hasComputerConnector = getConnectors().stream()
+                                            .anyMatch(connector -> connector == Connector.Type.COMPUTER);
+            boolean hasPeripheralConnector = getConnectors().stream()
+                                            .anyMatch(connector -> connector == Connector.Type.PERIPHERAL);
+
+            return hasComputerConnector && hasPeripheralConnector;
         }
         public Builder getThis() {
             return this;

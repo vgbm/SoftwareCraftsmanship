@@ -98,25 +98,13 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
             return connectorList;
         }
 
-        protected void validate() {
-            if(version == null)
-                throw new NullPointerException("A version was not given for this device.");
-        }
-
-        public Integer getVersion() {
+        protected Integer getVersion() {
             return version;
         }
 
-        public Optional<Integer> getProductCode() {
-            return productCode;
-        }
-
-        public Optional<BigInteger> getSerialNumber() {
-            return serialNumber;
-        }
-
-        public List<Connector.Type> getConnectorList() {
-            return connectorList;
+        protected void validate() {
+            if(version == null)
+                throw new NullPointerException("A version was not given for this device.");
         }
     }
 }
