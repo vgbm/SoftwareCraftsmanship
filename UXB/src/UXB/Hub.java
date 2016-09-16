@@ -18,6 +18,7 @@ public class Hub extends AbstractDevice<Hub.Builder> {
     }
 
     @Override
+    //Always return that this is a hub
     public DeviceClass getDeviceClass() {
         return DeviceClass.HUB;
     }
@@ -36,6 +37,7 @@ public class Hub extends AbstractDevice<Hub.Builder> {
         }
 
         @Override
+        //throws an error if the version is null or if a computer/peripheral connector is missing
         protected void validate() {
             if(getVersion() == null || !hasAtLeastOneComputerAndPeripheral()) {
                 throw new IllegalStateException("Either the version is null or the hub has no connectors to computers or peripherals");

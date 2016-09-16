@@ -46,6 +46,7 @@ public final class Connector {
         return peer;
     }
 
+    //Types of ports that the connector can connect to
     public enum Type {
         COMPUTER,
         PERIPHERAL

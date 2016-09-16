@@ -15,6 +15,8 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
     private final Integer version;
     private final Optional<Integer> productCode;
     private final Optional<BigInteger> serialNumber;
+
+    //list of the type of connectors attached to the device
     private final List<Connector.Type> connectorList;
 
     protected AbstractDevice(Builder<T> builder) {
@@ -56,7 +58,7 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
     }
 
     @Override
-    // returns the connector of the device at a given index
+    // returns a new connector for the device with the same type as the connector of a given index
     public Connector getConnector(int index) {
         Connector.Type connectorType = connectorList.get(index);
         return new Connector(index, connectorType, this);
@@ -67,6 +69,8 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
         private Integer version;
         private Optional<Integer> productCode;
         private Optional<BigInteger> serialNumber;
+
+        //list of the type of connectors attached to the device
         private List<Connector.Type> connectorList;
 
         public Builder(Integer version){
@@ -102,6 +106,7 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
             return version;
         }
 
+        //Throws an error if the version is missing
         protected void validate() {
             if(version == null)
                 throw new NullPointerException("A version was not given for this device.");
