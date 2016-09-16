@@ -57,7 +57,7 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
     // returns a list of connectors
     public List<Connector.Type> getConnectors() {
         return connectorList.stream()
-                .map(connector -> connector.getType())
+                .map(Connector::getType)
                 .collect(Collectors.toList());
     }
 

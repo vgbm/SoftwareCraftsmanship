@@ -40,7 +40,7 @@
           <file leaf-file-name="BinaryMessage.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/UXB/BinaryMessage.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
+                <state relative-caret-position="214">
                   <caret line="18" column="58" selection-start-line="18" selection-start-column="58" selection-end-line="18" selection-end-column="58" />
                   <folding />
                 </state>
@@ -57,11 +57,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="AbstractDevice.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="AbstractDevice.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/UXB/AbstractDevice.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="990">
-                  <caret line="66" column="36" selection-start-line="66" selection-start-column="36" selection-end-line="66" selection-end-column="36" />
+                <state relative-caret-position="1065">
+                  <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#1015#1016#0" expanded="true" />
@@ -79,14 +79,15 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Hub.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Hub.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/UXB/Hub.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="855">
-                  <caret line="59" column="9" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
+                <state relative-caret-position="-445">
+                  <caret line="0" column="11" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="11" />
                   <folding>
-                    <element signature="e#812#813#0" expanded="true" />
-                    <element signature="e#850#851#0" expanded="true" />
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#895#896#0" expanded="true" />
+                    <element signature="e#933#934#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -109,8 +110,8 @@
           <file leaf-file-name="Connector.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/UXB/Connector.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="480">
-                  <caret line="32" column="25" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
+                <state relative-caret-position="405">
+                  <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
                   <folding>
                     <element signature="e#779#780#0" expanded="true" />
                     <element signature="e#807#808#0" expanded="true" />
@@ -136,8 +137,8 @@
         <option value="$PROJECT_DIR$/src/UXB/DeviceClass.java" />
         <option value="$PROJECT_DIR$/src/UXB/Connector.java" />
         <option value="$PROJECT_DIR$/src/UXB/BinaryMessage.java" />
-        <option value="$PROJECT_DIR$/src/UXB/AbstractDevice.java" />
         <option value="$PROJECT_DIR$/src/UXB/Hub.java" />
+        <option value="$PROJECT_DIR$/src/UXB/AbstractDevice.java" />
       </list>
     </option>
   </component>
@@ -646,12 +647,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1473993969549</updated>
-      <workItem from="1473993970773" duration="7259000" />
+      <workItem from="1473993970773" duration="8725000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7259000" />
+    <option name="totallyTimeSpent" value="8725000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="24" width="1922" height="1033" extended-state="6" />
@@ -728,6 +729,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/UXB/DeviceClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UXB/Hub.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-445">
+          <caret line="0" column="11" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#895#896#0" expanded="true" />
+            <element signature="e#933#934#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/UXB/Connector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
@@ -741,24 +762,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UXB/BinaryMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="214">
           <caret line="18" column="58" selection-start-line="18" selection-start-column="58" selection-end-line="18" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UXB/DeviceClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UXB/AbstractDevice.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" column="36" selection-start-line="66" selection-start-column="36" selection-end-line="66" selection-end-column="36" />
+        <state relative-caret-position="1065">
+          <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1015#1016#0" expanded="true" />
@@ -771,17 +784,6 @@
             <element signature="e#1405#1406#0" expanded="true" />
             <element signature="e#1461#1462#0" expanded="true" />
             <element signature="e#1504#1505#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UXB/Hub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="59" column="9" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
-          <folding>
-            <element signature="e#812#813#0" expanded="true" />
-            <element signature="e#850#851#0" expanded="true" />
           </folding>
         </state>
       </provider>

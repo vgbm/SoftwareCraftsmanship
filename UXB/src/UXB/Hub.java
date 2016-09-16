@@ -20,8 +20,8 @@ public class Hub extends AbstractDevice<Hub.Builder> {
     public Hub(Builder builder){
         super(builder);
         this.version = builder.version;
-        this.productCode = builder.productCode.get();
-        this.serialNumber = builder.serialNumber.get();
+        this.productCode = builder.productCode.isPresent() ? builder.productCode.get() : null;
+        this.serialNumber = builder.serialNumber.isPresent() ? builder.serialNumber.get() : null;
         this.connectorList = builder.connectorList;
     }
 
@@ -51,6 +51,7 @@ public class Hub extends AbstractDevice<Hub.Builder> {
             if(!hasAtLeastOneComputerOrPeripheral()) {
                 throw new IllegalStateException("The hub is missing either a version or a connector type.");
             }
+
             return new Hub(this);
         }
 
