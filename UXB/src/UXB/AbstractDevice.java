@@ -10,20 +10,26 @@ import java.util.Optional;
  *
  * Provides the basic functionality and requirements for devices using the USB
  */
-public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Device {
+public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Device {
 
     private final Integer version;
     private final Optional<Integer> productCode;
     private final Optional<BigInteger> serialNumber;
 
     //list of the type of connectors attached to the device
-    private final List<Connector.Type> connectorList;
+    private final List<Connector.Type> connectorTypeList;
+    private List<Connector> connectorList;
 
     protected AbstractDevice(Builder<T> builder) {
         this.productCode = builder.productCode;
         this.serialNumber = builder.serialNumber;
         this.version = builder.version;
-        this.connectorList = builder.connectorList;
+        this.connectorTypeList = builder.connectorList;
+
+        //creating list of connectors to the device
+        for(int i = 0; i < connectorTypeList.size(); i++) {
+            connectorList.add( new Connector(i, connectorTypeList.get(i), this) );
+        }
     }
 
     @Override
@@ -48,20 +54,19 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
 
     @Override
     public Integer getConnectorCount() {
-        return connectorList.size();
+        return connectorTypeList.size();
     }
 
     @Override
     // returns a list of connectors
     public List<Connector.Type> getConnectors() {
-        return connectorList;
+        return connectorTypeList;
     }
 
     @Override
     // returns a new connector for the device with the same type as the connector of a given index
     public Connector getConnector(int index) {
-        Connector.Type connectorType = connectorList.get(index);
-        return new Connector(index, connectorType, this);
+        return connectorList.get(index);
     }
 
     public static abstract class Builder<T> {
@@ -81,12 +86,12 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
         }
 
         public T productCode (Integer productCode) {
-            this.productCode = productCode == null ? Optional.empty() : Optional.of(productCode);
+            this.productCode = Optional.ofNullable(productCode);
             return getThis();
         }
 
         public T serialNumber (BigInteger serialNumber) {
-            this.serialNumber = serialNumber == null ? Optional.empty() : Optional.of(serialNumber);
+            this.serialNumber = Optional.ofNullable(serialNumber);
             return getThis();
         }
 
@@ -100,10 +105,6 @@ public class AbstractDevice<T extends AbstractDevice.Builder<T>> implements Devi
 
         protected List<Connector.Type> getConnectors() {
             return connectorList;
-        }
-
-        protected Integer getVersion() {
-            return version;
         }
 
         //Throws an error if the version is missing

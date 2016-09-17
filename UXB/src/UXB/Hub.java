@@ -39,7 +39,16 @@ public class Hub extends AbstractDevice<Hub.Builder> {
         @Override
         //throws an error if the version is null or if a computer/peripheral connector is missing
         protected void validate() {
-            if(getVersion() == null || !hasAtLeastOneComputerAndPeripheral()) {
+
+            //try and validate
+            //if we fail, we need to change the exception type to an IllegalStateExceptions
+            try {
+                validate();
+            } catch (NullPointerException ex) {
+                throw new IllegalStateException(ex);
+            }
+
+            if(!hasAtLeastOneComputerAndPeripheral()) {
                 throw new IllegalStateException("Either the version is null or the hub has no connectors to computers or peripherals");
             }
         }

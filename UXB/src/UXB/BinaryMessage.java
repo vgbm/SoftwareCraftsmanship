@@ -28,7 +28,7 @@ public final class BinaryMessage implements Message {
     @Override
     //Returns whether the object passed in is not null and has the same message type
     public boolean equals(Object anObject) {
-        if(anObject == null || anObject.getClass() != BinaryMessage.class){
+        if(anObject == null || anObject instanceof BinaryMessage){
             return false;
         }
 
