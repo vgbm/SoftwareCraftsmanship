@@ -49,13 +49,21 @@ public class Hub extends AbstractDevice<Hub.Builder> {
         }
 
         private boolean hasAtLeastOneComputerAndPeripheral(){
-            boolean hasComputerConnector = getConnectors().stream()
-                                            .anyMatch(connector -> connector == Connector.Type.COMPUTER);
-            boolean hasPeripheralConnector = getConnectors().stream()
-                                            .anyMatch(connector -> connector == Connector.Type.PERIPHERAL);
-
-            return hasComputerConnector && hasPeripheralConnector;
+            return hasComputerConnector() && hasPeripheralConnector();
         }
+
+        private boolean hasComputerConnector() {
+            return getConnectors()
+                    .stream()
+                    .anyMatch(connector -> connector == Connector.Type.COMPUTER);
+        }
+
+        private boolean hasPeripheralConnector() {
+            return getConnectors()
+                    .stream()
+                    .anyMatch(connector -> connector == Connector.Type.PERIPHERAL);
+        }
+
         public Builder getThis() {
             return this;
         }
