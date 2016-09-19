@@ -33,6 +33,7 @@ public abstract class AbstractPeripheral<T extends AbstractPeripheral.Builder<T>
 
         //checks the non-null connector types and returns whether or not they are of Connector Type peripheral
         private boolean allConnectorsArePeriheralConnectors() {
+            //not using parallel streams due to high overhead and the num of connections is usually low
             return getConnectors()
                     .stream()
                     .filter(connType -> connType != null)

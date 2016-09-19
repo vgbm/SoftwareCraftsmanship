@@ -66,7 +66,7 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
     @Override
     // returns a list of connectors
     public List<Connector> getConnectors() {
-        return connectorList;
+        return new ArrayList<>(connectorList);
     }
 
     @Override
@@ -112,7 +112,7 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         protected abstract T getThis();
 
         protected List<Connector.Type> getConnectors() {
-            return connectorTypeList;
+            return new ArrayList<>(connectorTypeList);
         }
 
         //Throws an error if the version is missing

@@ -1,5 +1,7 @@
 package UXB;
 
+import UXB.Messages.Message;
+
 import java.util.Optional;
 
 /**
@@ -9,6 +11,12 @@ import java.util.Optional;
  * No end device is required
  * */
 public final class Connector {
+
+    //Types of ports that the connector can connect to
+    public enum Type {
+        COMPUTER,
+        PERIPHERAL
+    }
 
     //Number of the connection (which port)
     private final int index;
@@ -46,9 +54,9 @@ public final class Connector {
         return peer;
     }
 
-    //Types of ports that the connector can connect to
-    public enum Type {
-        COMPUTER,
-        PERIPHERAL
+    //makes sure the message reaches the connectors device
+    public void recv(Message message) {
+
     }
+
 }

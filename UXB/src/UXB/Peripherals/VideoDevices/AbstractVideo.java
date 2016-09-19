@@ -1,21 +1,21 @@
-package UXB.Peripherals.Printers;
+package UXB.Peripherals.VideoDevices;
 
-import UXB.Peripherals.AbstractPeripheral;
 import UXB.DeviceClass;
+import UXB.Peripherals.AbstractPeripheral;
 
 /**
  * Created by james on 9/19/16.
  */
-public class AbstractPrinter extends AbstractPeripheral {
+public class AbstractVideo extends AbstractPeripheral {
 
-    public AbstractPrinter(Builder builder) {
+    public AbstractVideo(Builder builder) {
         super(builder);
     }
 
     @Override
-    //Always return that this is a printer
+    //Always return that this is a video device
     public DeviceClass getDeviceClass() {
-        return DeviceClass.PRINTER;
+        return DeviceClass.VIDEO;
     }
 
 
