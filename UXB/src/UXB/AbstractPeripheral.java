@@ -11,7 +11,7 @@ public abstract class AbstractPeripheral<T extends AbstractPeripheral.Builder<T>
 
 
 
-    public static abstract class Builder extends AbstractDevice.Builder<Builder> {
+    public static abstract class Builder<T> extends AbstractDevice.Builder<Builder> {
 
         public Builder(Integer version) {
             super(version);
