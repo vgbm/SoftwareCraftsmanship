@@ -24,6 +24,7 @@ public class Hub extends AbstractDevice<Hub.Builder> {
     }
 
 
+
     public static class Builder extends AbstractDevice.Builder<Builder> {
 
         public Builder(Integer version){
@@ -44,7 +45,7 @@ public class Hub extends AbstractDevice<Hub.Builder> {
             super.validate();
 
             if(!hasAtLeastOneComputerAndPeripheral()) {
-                throw new IllegalStateException("Either the version is null or the hub has no connectors to computers or peripherals");
+                throw new IllegalStateException("The hub has no connectors to computers or peripherals");
             }
         }
 
@@ -55,13 +56,13 @@ public class Hub extends AbstractDevice<Hub.Builder> {
         private boolean hasComputerConnector() {
             return getConnectors()
                     .stream()
-                    .anyMatch(connector -> connector == Connector.Type.COMPUTER);
+                    .anyMatch(connType -> connType == Connector.Type.COMPUTER);
         }
 
         private boolean hasPeripheralConnector() {
             return getConnectors()
                     .stream()
-                    .anyMatch(connector -> connector == Connector.Type.PERIPHERAL);
+                    .anyMatch(connType -> connType == Connector.Type.PERIPHERAL);
         }
 
         public Builder getThis() {

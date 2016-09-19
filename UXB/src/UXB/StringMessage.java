@@ -39,7 +39,7 @@ public class StringMessage implements Message {
     }
 
     public boolean contains(CharSequence charSequence) {
-        message.contains(charSequence);
+        return message.contains(charSequence);
     }
 
     public boolean endsWith(String suffix) {
