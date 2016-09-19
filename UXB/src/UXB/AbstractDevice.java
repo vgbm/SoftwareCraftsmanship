@@ -24,22 +24,28 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         this.productCode = builder.productCode;
         this.serialNumber = builder.serialNumber;
         this.version = builder.version;
-        this.connectorTypeList = builder.connectorList;
+        this.connectorTypeList = builder.connectorTypeList;
+
+        connectorList = new ArrayList<>();
 
         //creating list of connectors to the device
+        //only create a new connector if the type list has a non-null entry
         for(int i = 0; i < connectorTypeList.size(); i++) {
-            connectorList.add( new Connector(i, connectorTypeList.get(i), this) );
+            Connector conn = connectorTypeList.get(i) == null ?
+                                null :
+                                new Connector(i, connectorTypeList.get(i), this);
+            connectorList.add( conn );
         }
     }
 
     @Override
     public Optional<Integer> getProductCode() {
-        return productCode.isPresent() ? productCode : Optional.empty();
+        return productCode;
     }
 
     @Override
     public Optional<BigInteger> getSerialNumber() {
-        return serialNumber.isPresent() ? serialNumber : Optional.empty();
+        return serialNumber;
     }
 
     @Override
@@ -59,8 +65,8 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
 
     @Override
     // returns a list of connectors
-    public List<Connector.Type> getConnectors() {
-        return connectorTypeList;
+    public List<Connector> getConnectors() {
+        return connectorList;
     }
 
     @Override
@@ -76,13 +82,13 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         private Optional<BigInteger> serialNumber;
 
         //list of the type of connectors attached to the device
-        private List<Connector.Type> connectorList;
+        private List<Connector.Type> connectorTypeList;
 
         public Builder(Integer version){
             this.version = version;
             productCode = Optional.empty();
             serialNumber = Optional.empty();
-            connectorList = new ArrayList<>();
+            connectorTypeList = new ArrayList<>();
         }
 
         public T productCode (Integer productCode) {
@@ -97,14 +103,16 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
 
         public T connectors (List<Connector.Type> connectors) {
             //initializing connector list with connectors to prevent copying reference
-            this.connectorList = connectors == null ? new ArrayList<>() : new ArrayList<>(connectors);
+            this.connectorTypeList = connectors == null ?
+                                    new ArrayList<>() :
+                                    new ArrayList<>(connectors);
             return getThis();
         }
 
         protected abstract T getThis();
 
         protected List<Connector.Type> getConnectors() {
-            return connectorList;
+            return connectorTypeList;
         }
 
         //Throws an error if the version is missing

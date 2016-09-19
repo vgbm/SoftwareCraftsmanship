@@ -32,7 +32,7 @@ public final class BinaryMessage implements Message {
             return false;
         }
 
-        BinaryMessage objectMessage = (BinaryMessage)anObject;
+        BinaryMessage objectMessage = (BinaryMessage) anObject;
         return message.equals(objectMessage.getMessage());
     }
 }

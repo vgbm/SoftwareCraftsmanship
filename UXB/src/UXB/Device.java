@@ -21,7 +21,8 @@ public interface Device {
 
     Integer getConnectorCount();
 
-    List<Connector.Type> getConnectors();
+    //Return a list of all the connectors attached to this device
+    List<Connector> getConnectors();
 
     Connector getConnector(int index);
 
