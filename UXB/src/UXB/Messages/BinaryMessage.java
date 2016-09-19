@@ -1,4 +1,4 @@
-package UXB;
+package UXB.Messages;
 
 import java.math.BigInteger;
 
@@ -28,7 +28,7 @@ public final class BinaryMessage implements Message {
     @Override
     //Returns whether the object passed in is not null and has the same message type
     public boolean equals(Object anObject) {
-        if(anObject == null || anObject instanceof BinaryMessage){
+        if(anObject == null || !(anObject instanceof BinaryMessage)){
             return false;
         }
 

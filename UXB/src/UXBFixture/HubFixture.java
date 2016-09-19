@@ -39,6 +39,8 @@ public class HubFixture {
 
         assertEquals(hub.getVersion(), _version);
         assertEquals(hub.getConnectorCount(), new Integer(connList.size()));
+
+        //TODO make conn list a list of connectors
         assertEquals(hub.getConnectors(), connList);
         assertEquals(hub.getProductCode(), _productCode);
         assertEquals(hub.getSerialNumber(), _serialNumber);

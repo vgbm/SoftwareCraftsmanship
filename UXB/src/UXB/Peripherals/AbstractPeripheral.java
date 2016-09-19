@@ -1,4 +1,7 @@
-package UXB;
+package UXB.Peripherals;
+
+import UXB.AbstractDevice;
+import UXB.Connector;
 
 /**
  * Created by james on 9/19/16.

@@ -1,6 +1,4 @@
-package UXB;
-
-import java.util.Objects;
+package UXB.Messages;
 
 /**
  * Created by james on 9/19/16.
@@ -22,7 +20,7 @@ public class StringMessage implements Message {
 
     @Override
     public boolean equals(Object anObject) {
-        if( anObject == null || anObject instanceof StringMessage ) {
+        if( anObject == null || !(anObject instanceof StringMessage) ) {
             return false;
         }
 

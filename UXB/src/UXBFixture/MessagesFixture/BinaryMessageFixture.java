@@ -1,6 +1,6 @@
-package UXBFixture;
+package UXBFixture.MessagesFixture;
 
-import UXB.BinaryMessage;
+import UXB.Messages.BinaryMessage;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

@@ -1,4 +1,4 @@
-package UXB;
+package UXB.Messages;
 
 /**
  * Created by james on 9/12/16.
