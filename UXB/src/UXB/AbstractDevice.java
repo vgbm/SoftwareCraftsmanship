@@ -1,5 +1,7 @@
 package UXB;
 
+import UXB.Messages.Message;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +76,19 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
     public Connector getConnector(int index) {
         return connectorList.get(index);
     }
+
+    //Checks the paramaters sent to a device's recv and throws any appropriate errors
+    //Inputs: paramaters sent to recv
+    //Does not output but rather throws errors if necessary
+    protected void validateRecvArguments(Message message, Connector connector) {
+        if(message == null || connector == null) {
+            throw new NullPointerException("Recv cannot accept null arguments");
+        }
+        if( !this.equals(connector.getDevice()) ) {
+            throw new IllegalArgumentException("The connector sent to recv does not belong to this device");
+        }
+    }
+
 
     public static abstract class Builder<T> {
 

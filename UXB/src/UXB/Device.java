@@ -1,5 +1,8 @@
 package UXB;
 
+import UXB.Messages.BinaryMessage;
+import UXB.Messages.StringMessage;
+
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
@@ -26,4 +29,9 @@ public interface Device {
 
     Connector getConnector(int index);
 
+    //signifies the arrival of a BinaryMessage at the connector
+    void recv(BinaryMessage message, Connector connector);
+
+    //signifies the arrival of a StringMessage at the connector
+    void recv(StringMessage message, Connector connector);
 }

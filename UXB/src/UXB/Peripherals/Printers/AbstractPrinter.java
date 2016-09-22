@@ -5,10 +5,11 @@ import UXB.DeviceClass;
 
 /**
  * Created by james on 9/19/16.
+ *
  */
-public class AbstractPrinter extends AbstractPeripheral {
+public abstract class AbstractPrinter<T extends AbstractPrinter.Builder<T>> extends AbstractPeripheral<T> {
 
-    public AbstractPrinter(Builder builder) {
+    protected AbstractPrinter(Builder<T> builder) {
         super(builder);
     }
 
@@ -20,7 +21,7 @@ public class AbstractPrinter extends AbstractPeripheral {
 
 
 
-    public static abstract class Builder<T> extends AbstractPeripheral.Builder<Builder> {
+    public static abstract class Builder<T> extends AbstractPeripheral.Builder<T> {
 
         public Builder(Integer version) {
             super(version);

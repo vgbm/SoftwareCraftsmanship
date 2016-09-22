@@ -1,5 +1,8 @@
 package UXB.Messages;
 
+import UXB.Connector;
+import UXB.Device;
+
 import java.math.BigInteger;
 
 /**
@@ -23,6 +26,10 @@ public final class BinaryMessage implements Message {
 
     public BigInteger getMessage(){
         return message;
+    }
+
+    public void reach(Device device, Connector connector) {
+        device.recv(this, connector);
     }
 
     @Override

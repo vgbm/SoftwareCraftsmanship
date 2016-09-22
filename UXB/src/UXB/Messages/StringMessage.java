@@ -1,5 +1,8 @@
 package UXB.Messages;
 
+import UXB.Connector;
+import UXB.Device;
+
 /**
  * Created by james on 9/19/16.
  */
@@ -16,6 +19,10 @@ public class StringMessage implements Message {
 
     public String getMessage() {
         return message;
+    }
+
+    public void reach(Device device, Connector connector) {
+        device.recv(this, connector);
     }
 
     @Override

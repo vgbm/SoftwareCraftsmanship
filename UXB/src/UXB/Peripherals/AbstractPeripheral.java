@@ -6,15 +6,15 @@ import UXB.Connector;
 /**
  * Created by james on 9/19/16.
  */
-public abstract class AbstractPeripheral<T extends AbstractPeripheral.Builder<T>> extends AbstractDevice {
+public abstract class AbstractPeripheral<T extends AbstractPeripheral.Builder<T>> extends AbstractDevice<T> {
 
-    public AbstractPeripheral(Builder builder) {
+    protected AbstractPeripheral(Builder<T> builder) {
         super(builder);
     }
 
 
 
-    public static abstract class Builder<T> extends AbstractDevice.Builder<Builder> {
+    public static abstract class Builder<T> extends AbstractDevice.Builder<T> {
 
         public Builder(Integer version) {
             super(version);

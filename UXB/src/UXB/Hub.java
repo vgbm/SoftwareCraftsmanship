@@ -1,5 +1,9 @@
 package UXB;
 
+import UXB.Messages.BinaryMessage;
+import UXB.Messages.Message;
+import UXB.Messages.StringMessage;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +27,17 @@ public class Hub extends AbstractDevice<Hub.Builder> {
         return DeviceClass.HUB;
     }
 
+    public void recv(StringMessage message, Connector connector) {
+        validateRecvArguments(message, connector);
+
+        System.out.println("Recv not yet supported");
+    }
+
+    public void recv(BinaryMessage message, Connector connector) {
+        validateRecvArguments(message, connector);
+
+        System.out.println("Recv not yet supported");
+    }
 
 
     public static class Builder extends AbstractDevice.Builder<Builder> {
