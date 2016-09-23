@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by james on 9/23/16.
@@ -26,7 +27,11 @@ public class GoAmateurFixture {
     public void setUp() {
         connectorList = Arrays.asList(Connector.Type.PERIPHERAL);
         goAmateur = new GoAmateur.Builder(1).connectors(connectorList).build();
-        goodConnector = new Connector(0, Connector.Type.PERIPHERAL, goAmateur);
+
+        Connector connectorToDevice = new Connector(0, Connector.Type.PERIPHERAL, goAmateur);
+
+        goodConnector = new Connector(0, Connector.Type.PERIPHERAL, null);
+        goodConnector.setPeer(connectorToDevice);
         badConnector = new Connector(0, Connector.Type.PERIPHERAL, null);
     }
 

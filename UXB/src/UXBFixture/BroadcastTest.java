@@ -1,6 +1,7 @@
 package UXBFixture;
 
 import UXB.Connector;
+import UXB.Device;
 import UXB.Hub;
 import UXB.Messages.BinaryMessage;
 import UXB.Messages.Message;
@@ -20,90 +21,42 @@ import java.util.List;
  */
 public class BroadcastTest {
 
-    Hub mainHub, testHub;
-    CannonPrinter testCannonPrinter;
-    SisterPrinter testSisterPrinter;
-    GoAmateur testGoAmateur;
+    Hub hub;
+    CannonPrinter cannonPrinter;
+    SisterPrinter sisterPrinter;
+    GoAmateur goAmateur;
+    private final BinaryMessage binaryMessage = new BinaryMessage(BigInteger.TEN);
+    private final StringMessage stringMessage = new StringMessage("test message");
+    List<Device> deviceList;
+    List<Message> messageList;
+
 
     @Before
     public void set_up(){
+        List<Connector.Type> hubConnectorTypes = Arrays.asList(Connector.Type.COMPUTER, Connector.Type.PERIPHERAL);
+        List<Connector.Type> deviceConnectorTypes = Arrays.asList(Connector.Type.PERIPHERAL);
 
-        List<Connector.Type> mainHubConnList = Arrays.asList(
-                Connector.Type.COMPUTER,
-                Connector.Type.PERIPHERAL,
-                Connector.Type.PERIPHERAL,
-                Connector.Type.PERIPHERAL,
-                Connector.Type.PERIPHERAL);
+        hub = new Hub.Builder(1).connectors(hubConnectorTypes).build();
+        cannonPrinter = new CannonPrinter.Builder(1).connectors(deviceConnectorTypes).build();
+        sisterPrinter = new SisterPrinter.Builder(1).connectors(deviceConnectorTypes).build();
+        goAmateur = new GoAmateur.Builder(1).connectors(deviceConnectorTypes).build();
 
-        mainHub = new Hub.Builder(1)
-                .productCode(13)
-                .serialNumber(BigInteger.valueOf(35756) )
-                .connectors(mainHubConnList)
-                .build();
+        deviceList = Arrays.asList(hub, cannonPrinter, sisterPrinter, goAmateur);
+        messageList = Arrays.asList(stringMessage, binaryMessage);
 
-        List<Connector.Type> testHubConnList = Arrays.asList(Connector.Type.COMPUTER, Connector.Type.PERIPHERAL);
-
-        testHub = new Hub.Builder(2)
-                .productCode(35)
-                .serialNumber(BigInteger.valueOf(5) )
-                .connectors(testHubConnList)
-                .build();
-
-        List<Connector.Type> cannonPrinterConnList = Arrays.asList(Connector.Type.PERIPHERAL);
-
-        testCannonPrinter = new CannonPrinter.Builder(5555)
-                .serialNumber( BigInteger.valueOf(6666) )
-                .productCode(22222)
-                .connectors(cannonPrinterConnList)
-                .build();
-
-        List<Connector.Type> sisterPrinterTestHub = Arrays.asList(Connector.Type.PERIPHERAL);
-
-        testSisterPrinter = new SisterPrinter.Builder(777777)
-                .serialNumber( BigInteger.valueOf(88888) )
-                .productCode(2222)
-                .connectors(sisterPrinterTestHub)
-                .build();
-
-        List<Connector.Type> goAmateurConnList = Arrays.asList(Connector.Type.PERIPHERAL);
-
-        testGoAmateur = new GoAmateur.Builder(7765)
-                .serialNumber( BigInteger.valueOf(56756) )
-                .productCode(111)
-                .connectors(goAmateurConnList)
-                .build();
-
-
+        deliverMessages();
     }
-
     @Test
-    public void broadcast_test_for_devices_and_message_passing() {
+    public void deliverMessages() {
+        for(Device device : deviceList) {
 
-        List<Connector> mainHubConnList = mainHub.getConnectors();
-        List<Connector> testHubConnList = testHub.getConnectors();
-        List<Connector> cannonPrinterConnList = testCannonPrinter.getConnectors();
-        List<Connector> sisterPrinterConnList = testSisterPrinter.getConnectors();
-        List<Connector> goAmateurConnList = testGoAmateur.getConnectors();
+            Connector connector = new Connector(0, Connector.Type.PERIPHERAL, null);
+            Connector connectorToDevice = new Connector(0, Connector.Type.PERIPHERAL, device);
+            connector.setPeer(connectorToDevice);
 
-        mainHubConnList.get(0).setPeer(testHubConnList.get(0) );
-        mainHubConnList.get(1).setPeer(cannonPrinterConnList.get(0) );
-        mainHubConnList.get(2).setPeer(sisterPrinterConnList.get(0) );
-        mainHubConnList.get(3).setPeer(goAmateurConnList.get(0) );
-
-
-        Message testStringMes0 = new StringMessage("Hello. Pleased to meet you");
-        Message testBinMes0 = new BinaryMessage(new BigInteger("213078964") );
-
-        //Checking for errors to not be thrown
-        mainHub.getConnector(0).recv(testStringMes0);
-        mainHub.getConnector(1).recv(testStringMes0);
-        mainHub.getConnector(2).recv(testStringMes0);
-        mainHub.getConnector(3).recv(testStringMes0);
-
-        mainHub.getConnector(0).recv(testBinMes0);
-        mainHub.getConnector(1).recv(testBinMes0);
-        mainHub.getConnector(2).recv(testBinMes0);
-        mainHub.getConnector(3).recv(testBinMes0);
+            for (Message message : messageList) {
+                message.reach(device, connector);
+            }
+        }
     }
-
 }
