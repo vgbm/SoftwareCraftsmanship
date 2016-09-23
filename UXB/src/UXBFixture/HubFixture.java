@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by james on 9/16/16.
@@ -33,15 +35,28 @@ public class HubFixture {
 
     @Test
     public void Should_create_new_hub_without_error_and_with_correct_values() {
-        List<Connector.Type> connList = Arrays.asList(Connector.Type.COMPUTER, Connector.Type.PERIPHERAL);
-        Hub hub = _builder.connectors(connList)
+
+        List<Connector.Type> connTypes = Arrays.asList(Connector.Type.COMPUTER, Connector.Type.PERIPHERAL);
+
+        Hub hub = _builder.connectors(connTypes)
                     .build();
 
-        assertEquals(hub.getVersion(), _version);
-        assertEquals(hub.getConnectorCount(), new Integer(connList.size()));
+        Connector conn1 = new Connector(0, Connector.Type.COMPUTER, hub);
+        Connector conn2 = new Connector(1, Connector.Type.PERIPHERAL, hub);
 
-        //TODO make conn list a list of connectors
-        assertEquals(hub.getConnectors(), connList);
+        assertEquals(hub.getVersion(), _version);
+        assertEquals(hub.getConnectorCount(), new Integer(connTypes.size()));
+
+        List<Connector> getConnList = hub.getConnectors();
+
+        assertEquals(getConnList.get(0).getDevice(), conn1.getDevice());
+        assertEquals(getConnList.get(1).getDevice(), conn2.getDevice());
+        assertEquals(getConnList.get(0).getType(), conn1.getType());
+        assertEquals(getConnList.get(1).getType(), conn2.getType());
+        assertEquals(getConnList.get(0).getIndex(), conn1.getIndex());
+        assertEquals(getConnList.get(1).getIndex(), conn2.getIndex());
+
+
         assertEquals(hub.getProductCode(), _productCode);
         assertEquals(hub.getSerialNumber(), _serialNumber);
     }

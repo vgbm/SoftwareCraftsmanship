@@ -6,7 +6,7 @@ import UXB.Device;
 /**
  * Created by james on 9/19/16.
  */
-public class StringMessage implements Message {
+public final class StringMessage implements Message {
 
     //message as a string
     private final String message;

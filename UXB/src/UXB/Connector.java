@@ -54,11 +54,14 @@ public final class Connector {
         return peer;
     }
 
-    //TODO
+    public void setPeer(Connector peer) {
+        this.peer = Optional.of(peer);
+    }
+
     //makes sure the message reaches the connectors device
     public void recv(Message message) {
         if(peer.isPresent()) {
-            message.reach(device, peer.get());
+            message.reach(peer.get().getDevice(), peer.get());
         }
     }
 

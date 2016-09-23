@@ -7,7 +7,7 @@ import UXB.Peripherals.AbstractPeripheral;
  * Created by james on 9/19/16.
  *
  */
-public class AbstractVideo<T extends AbstractPeripheral.Builder<T>> extends AbstractPeripheral<T> {
+public abstract class AbstractVideo<T extends AbstractPeripheral.Builder<T>> extends AbstractPeripheral<T> {
 
     public AbstractVideo(Builder builder) {
         super(builder);

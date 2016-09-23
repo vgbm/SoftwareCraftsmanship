@@ -84,6 +84,7 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         if(message == null || connector == null) {
             throw new NullPointerException("Recv cannot accept null arguments");
         }
+
         if( !this.equals(connector.getDevice()) ) {
             throw new IllegalArgumentException("The connector sent to recv does not belong to this device");
         }
