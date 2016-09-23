@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by james on 9/23/16.
@@ -12,8 +14,8 @@ import static org.junit.Assert.assertEquals;
 public class StringMessageFixture {
 
     private final String messageText = "test message text";
-    private final StringMessage testStrMes0 =new StringMessage("Puppies");
-    private final StringMessage testStrMes1 =new StringMessage("Kittens");
+    private final StringMessage stringMessage = new StringMessage("Puppies");
+    private final StringMessage stringMessage2 = new StringMessage("Kittens");
 
     @Test
     public void Should_create_message_with_given_value() {
@@ -37,7 +39,7 @@ public class StringMessageFixture {
         StringMessage message1 = new StringMessage(messageText);
         StringMessage message2 = new StringMessage(messageText);
 
-        Assert.assertTrue(message1.equals(message2));
+        assertTrue(message1.equals(message2));
     }
 
     @Test
@@ -51,90 +53,73 @@ public class StringMessageFixture {
 
 
     @Test
-    public void equalsSameString() throws Exception {
-        StringMessage testStrMes3 = new StringMessage(
-                "Help, I'm stuck in a test factory!");
-        assertEquals(testStrMes0.equals(testStrMes3), true);
+    public void equalsSameString() {
+        assertTrue(stringMessage.equals(new StringMessage("Puppies")));
     }
 
     @Test
-    public void equalsDifferentString() throws Exception {
-        assertEquals(testStrMes0.equals(testStrMes1), false);
+    public void equalsDifferentString() {
+        assertFalse(stringMessage.equals(stringMessage2));
     }
 
     @Test
-    public void length() throws Exception {
-        assertEquals(testStrMes0.length(), 34);
+    public void lengthTest() {
+        assertEquals(stringMessage.length(), 7);
     }
 
     @Test
-    public void charAt() throws Exception {
-        assertEquals(testStrMes0.charAt(3), "p".charAt(0) );
+    public void charAtTest() {
+        assertEquals(stringMessage.charAt(3), 'p' );
     }
 
     @Test
-    public void contains() throws Exception {
-        assertEquals(testStrMes0.contains("e"), true);
+    public void containsTest() {
+        assertTrue(stringMessage.contains("e"));
     }
 
     @Test
-    public void endsWith() throws Exception {
-        assertEquals(testStrMes0.endsWith("!"), true);
+    public void startsWithTest() {
+        assertTrue(stringMessage.startsWith("P"));
     }
 
     @Test
-    public void startsWith() throws Exception {
-        assertEquals(testStrMes0.startsWith("H"), true);
+    public void endsWithTest() {
+        assertTrue(stringMessage.endsWith("s"));
     }
 
     @Test
-    public void indexOfWithChar() throws Exception {
-        assertEquals(testStrMes0.indexOf( "e".charAt(0) ), 1 );
+    public void isEmptyTest() {
+        assertTrue(new StringMessage("").isEmpty());
     }
 
     @Test
-    public void indexOfWithCharAndFromIndex() throws Exception {
-        assertEquals(testStrMes0.indexOf( "e".charAt(0), 3 ), 22 );
+    public void indexOfWithCharTest() {
+        assertEquals(stringMessage.indexOf('u'), 1 );
     }
 
     @Test
-    public void indexOfWithString() throws Exception {
-        assertEquals(testStrMes0.indexOf( "e" ), 1 );
+    public void indexOfWithCharAndFromIndexTest() {
+        assertEquals(stringMessage.indexOf('p', 1), 2 );
     }
 
     @Test
-    public void indexOfWithStringAndFromIndex() throws Exception {
-        assertEquals(testStrMes0.indexOf( "e", 10 ), 22 );
+    public void indexOfWithStringTest() {
+        assertEquals(stringMessage.indexOf("u"), 1 );
     }
 
     @Test
-    public void lastIndexOfWithChar() throws Exception {
-        assertEquals(testStrMes0.lastIndexOf( "e".charAt(0) ), 22 );
+    public void indexOfWithStringAndFromIndexTest() {
+        assertEquals(stringMessage.indexOf("p", 1), 2 );
     }
 
     @Test
-    public void lastIndexOfWithCharAndFromIndex() throws Exception {
-        assertEquals(testStrMes0.indexOf( "e".charAt(0), 0 ), 1 );
+    public void lastIndexOfWithCharTest() {
+        assertEquals(stringMessage.lastIndexOf('p'), 3);
     }
 
     @Test
-    public void lastIndexOfWithString() throws Exception {
-        assertEquals(testStrMes0.indexOf( "e" ), 1 );
+    public void lastIndexOfWithStringTest() {
+        assertEquals(stringMessage.lastIndexOf("p"), 3);
     }
 
-    @Test
-    public void lastIndexOfWithStringAndFromIndex() throws Exception {
-        assertEquals(testStrMes0.indexOf( "e", 0 ), 1 );
-    }
-
-    @Test
-    public void isEmpty() throws Exception {
-        StringMessage testStrMes4 = new StringMessage("");
-        assertEquals(testStrMes4.isEmpty(), true);
-    }
-
-    @Test
-    public void hashCode() throws Exception {
-        assertEquals(testStrMes0.hashCode(), 2);
-    }
 }
