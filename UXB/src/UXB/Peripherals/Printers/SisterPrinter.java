@@ -38,11 +38,8 @@ public class SisterPrinter extends AbstractPrinter<SisterPrinter.Builder> {
 
     //Add the product code to the message in order to solve for the message printed
     //If productCode is empty, we simply add 0
-    //TODO : Optional orElse
     private BigInteger calculatePrintedMessage(BigInteger messageValue, Optional<Integer> productCode) {
-        BigInteger addedProductCodeValue = productCode.isPresent()
-                                            ? new BigInteger(productCode.get().toString())
-                                            : BigInteger.ZERO;
+        BigInteger addedProductCodeValue = new BigInteger(productCode.orElse(1).toString());
 
         return messageValue.add(addedProductCodeValue);
     }

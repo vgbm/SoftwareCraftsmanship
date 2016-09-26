@@ -36,11 +36,8 @@ public class CannonPrinter extends AbstractPrinter<CannonPrinter.Builder> {
 
     //Add the product code to the message in order to solve for the message printed
     //If productCode is empty, we simply add 0
-    //TODO : Optional orElse
     private BigInteger calculatePrintedMessage(BigInteger messageValue, Optional<BigInteger> serialNumber) {
-        BigInteger addedProductCodeValue = serialNumber.isPresent()
-                ? new BigInteger(serialNumber.get().toString())
-                : BigInteger.ONE;
+        BigInteger addedProductCodeValue = serialNumber.orElse(BigInteger.ONE);
 
         return messageValue.multiply(addedProductCodeValue);
     }
