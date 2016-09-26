@@ -3,9 +3,8 @@ package UXB;
 import UXB.Messages.Message;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by james on 9/12/16.
@@ -87,6 +86,32 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         if( !this.equals(connector.getDevice()) ) {
             throw new IllegalArgumentException("The connector sent to recv does not belong to this device");
         }
+    }
+
+    public Set<Device> peerDevices() {
+        return connectorList.stream()
+                .filter(connector -> connector.getPeer().isPresent()) //filters out any empty peers
+                .map(connector -> connector.getPeer().get().getDevice()) //gets the peer device
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Device> reachableDevices() {
+        Set<Device> emptyDeviceSet = new HashSet<>();
+        return reachableDevicesHelper(emptyDeviceSet);
+    }
+
+    private Set<Device> reachableDevicesHelper(Set<Device> deviceSet){
+        deviceSet.add(this);
+        for (Device device : peerDevices()) {
+            if ( !deviceSet.contains(device) ) {
+                reachableDevicesHelper(deviceSet);
+            }
+        }
+        return deviceSet;
+    }
+
+    public boolean isReachable(Device device) {
+        return reachableDevices().contains(device);
     }
 
 

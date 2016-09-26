@@ -1,5 +1,6 @@
 package UXB;
 
+import UXB.Exceptions.ConnectionException;
 import UXB.Messages.Message;
 
 import java.util.Optional;
@@ -54,7 +55,20 @@ public final class Connector {
         return peer;
     }
 
-    public void setPeer(Connector peer) {
+    public void setPeer(Connector peer) throws ConnectionException {
+
+        if( peer == null) {
+            throw new NullPointerException("The peer being set was null.");
+        }
+
+        if ( this.peer.isPresent() ) {
+            throw new ConnectionException(peer, ConnectionException.ErrorCode.CONNECTOR_BUSY);
+        }
+
+        if( this.type.equals(peer.getType()) ) {
+            throw new ConnectionException(peer, ConnectionException.ErrorCode.CONNECTOR_MISMATCH);
+        }
+
         this.peer = Optional.of(peer);
     }
 
