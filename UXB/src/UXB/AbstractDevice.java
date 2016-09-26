@@ -31,7 +31,7 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         connectorList = new ArrayList<>();
 
         //creating list of connectors to the device
-        //only create a new connector if the type list has a non-null entry
+        // TODO Remove null
         for(int i = 0; i < connectorTypeList.size(); i++) {
             Connector conn = connectorTypeList.get(i) == null ?
                                 null :

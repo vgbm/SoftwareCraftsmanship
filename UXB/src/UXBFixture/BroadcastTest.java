@@ -43,11 +43,10 @@ public class BroadcastTest {
 
         deviceList = Arrays.asList(hub, cannonPrinter, sisterPrinter, goAmateur);
         messageList = Arrays.asList(stringMessage, binaryMessage);
-
-        deliverMessages();
     }
+
     @Test
-    public void deliverMessages() {
+    public void deliver_Messages() {
         for(Device device : deviceList) {
 
             Connector connector = new Connector(0, Connector.Type.PERIPHERAL, null);

@@ -60,9 +60,7 @@ public final class Connector {
 
     //makes sure the message reaches the connectors device
     public void recv(Message message) {
-        if(peer.isPresent()) {
-            message.reach(peer.get().getDevice(), peer.get());
-        }
+        message.reach(getDevice(), this);
     }
 
 }
