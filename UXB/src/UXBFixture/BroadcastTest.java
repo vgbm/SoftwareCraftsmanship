@@ -49,11 +49,10 @@ public class BroadcastTest {
     public void deliver_Messages() {
         for(Device device : deviceList) {
 
-            Connector connector = new Connector(0, Connector.Type.PERIPHERAL, null);
-            Connector connectorToDevice = new Connector(0, Connector.Type.PERIPHERAL, device);
-            connector.setPeer(connectorToDevice);
+            Connector connector = new Connector(0, Connector.Type.PERIPHERAL, device);
 
             for (Message message : messageList) {
+                connector.recv(message);
                 message.reach(device, connector);
             }
         }

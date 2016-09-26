@@ -31,11 +31,8 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         connectorList = new ArrayList<>();
 
         //creating list of connectors to the device
-        // TODO Remove null
         for(int i = 0; i < connectorTypeList.size(); i++) {
-            Connector conn = connectorTypeList.get(i) == null ?
-                                null :
-                                new Connector(i, connectorTypeList.get(i), this);
+            Connector conn = new Connector(i, connectorTypeList.get(i), this);
             connectorList.add( conn );
         }
     }
@@ -87,7 +84,7 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
 
         //checks if the peer is present
         //if it is, it then checks if the peer device is the right device
-        if( !connector.getPeer().isPresent() || !this.equals(connector.getPeer().get().getDevice()) ) {
+        if( !this.equals(connector.getDevice()) ) {
             throw new IllegalArgumentException("The connector sent to recv does not belong to this device");
         }
     }
