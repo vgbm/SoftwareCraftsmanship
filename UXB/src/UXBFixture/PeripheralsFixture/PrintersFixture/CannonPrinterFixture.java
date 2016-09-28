@@ -28,10 +28,7 @@ public class CannonPrinterFixture {
         connectorList = Arrays.asList(Connector.Type.PERIPHERAL);
         cannonPrinter = new CannonPrinter.Builder(1).connectors(connectorList).build();
 
-        Connector connectorToDevice = new Connector(0, Connector.Type.PERIPHERAL, cannonPrinter);
-
-        goodConnector = new Connector(0, Connector.Type.PERIPHERAL, null);
-        goodConnector.setPeer(connectorToDevice);
+        goodConnector = new Connector(0, Connector.Type.PERIPHERAL, cannonPrinter);
         badConnector = new Connector(0, Connector.Type.PERIPHERAL, null);
     }
 

@@ -28,10 +28,7 @@ public class SisterPrinterFixture {
         connectorList = Arrays.asList(Connector.Type.PERIPHERAL);
         sisterPrinter = new SisterPrinter.Builder(1).connectors(connectorList).build();
 
-        Connector connectorToDevice = new Connector(0, Connector.Type.PERIPHERAL, sisterPrinter);
-
-        goodConnector = new Connector(0, Connector.Type.PERIPHERAL, null);
-        goodConnector.setPeer(connectorToDevice);
+        goodConnector = new Connector(0, Connector.Type.PERIPHERAL, sisterPrinter);
         badConnector = new Connector(0, Connector.Type.PERIPHERAL, null);
     }
 

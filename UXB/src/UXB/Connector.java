@@ -61,6 +61,14 @@ public final class Connector {
             throw new NullPointerException("The peer being set was null.");
         }
 
+        validatePeerConnector(peer);
+
+        this.peer = Optional.of(peer);
+    }
+
+    //throws any ConnectionExceptions that setting the peer would cause
+    private void validatePeerConnector(Connector peer) throws  ConnectionException {
+
         if ( this.peer.isPresent() ) {
             throw new ConnectionException(peer, ConnectionException.ErrorCode.CONNECTOR_BUSY);
         }
@@ -69,7 +77,12 @@ public final class Connector {
             throw new ConnectionException(peer, ConnectionException.ErrorCode.CONNECTOR_MISMATCH);
         }
 
-        this.peer = Optional.of(peer);
+        //if we can reach this device through connections from the peer
+        //then there would a loop present when we set the peer, so an error should be thrown
+        if( peer.device.isReachable(device) ) {
+            throw new ConnectionException(this, ConnectionException.ErrorCode.CONNECTION_CYCLE);
+        }
+
     }
 
     //makes sure the message reaches the connectors device
@@ -77,4 +90,7 @@ public final class Connector {
         message.reach(getDevice(), this);
     }
 
+    public boolean isReachable(Device device) {
+        return this.device.isReachable(device);
+    }
 }

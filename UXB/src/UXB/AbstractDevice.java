@@ -97,21 +97,30 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
 
     public Set<Device> reachableDevices() {
         Set<Device> emptyDeviceSet = new HashSet<>();
-        return reachableDevicesHelper(emptyDeviceSet);
+        return reachableDevicesHelper(emptyDeviceSet, this, null);
     }
 
-    private Set<Device> reachableDevicesHelper(Set<Device> deviceSet){
-        deviceSet.add(this);
-        for (Device device : peerDevices()) {
-            if ( !deviceSet.contains(device) ) {
-                reachableDevicesHelper(deviceSet);
+    private Set<Device> reachableDevicesHelper(Set<Device> deviceSet, Device currDevice, Device deviceToFind){
+
+        peerDeviceLoop:
+        for (Device neighboringDevice : currDevice.peerDevices()) {
+
+            if( neighboringDevice.equals(deviceToFind)) {
+                deviceSet.add(neighboringDevice);
+                break peerDeviceLoop;
+            }
+
+            if ( !deviceSet.contains(neighboringDevice) ) {
+                deviceSet.add(neighboringDevice);
+                reachableDevicesHelper(deviceSet, neighboringDevice, deviceToFind);
             }
         }
         return deviceSet;
     }
 
     public boolean isReachable(Device device) {
-        return reachableDevices().contains(device);
+        Set<Device> emptyDeviceSet = new HashSet<>();
+        return reachableDevicesHelper(emptyDeviceSet, this, device).contains(device);
     }
 
 
