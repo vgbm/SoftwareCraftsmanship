@@ -4,7 +4,6 @@ import UXB.Connector;
 import UXB.Messages.BinaryMessage;
 import UXB.Messages.StringMessage;
 import UXB.Peripherals.Printers.SisterPrinter;
-import UXB.Peripherals.VideoDevices.GoAmateur;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,49 +16,49 @@ import java.util.List;
  */
 public class SisterPrinterFixture {
 
-    private List<Connector.Type> connectorList;
-    private SisterPrinter sisterPrinter;
-    private Connector goodConnector, badConnector;
-    private final BinaryMessage binaryMessage = new BinaryMessage(BigInteger.TEN);
-    private final StringMessage stringMessage = new StringMessage("test message");
+    private List<Connector.Type> _connectorList;
+    private SisterPrinter _sisterPrinter;
+    private Connector _goodConnector, _badConnector;
+    private final BinaryMessage _binaryMessage = new BinaryMessage(BigInteger.TEN);
+    private final StringMessage _stringMessage = new StringMessage("test message");
 
     @Before
     public void setUp() {
-        connectorList = Arrays.asList(Connector.Type.PERIPHERAL);
-        sisterPrinter = new SisterPrinter.Builder(1).connectors(connectorList).build();
+        _connectorList = Arrays.asList(Connector.Type.PERIPHERAL);
+        _sisterPrinter = new SisterPrinter.Builder(1).connectors(_connectorList).build();
 
-        goodConnector = new Connector(0, Connector.Type.PERIPHERAL, sisterPrinter);
-        badConnector = new Connector(0, Connector.Type.PERIPHERAL, null);
+        _goodConnector = new Connector(0, Connector.Type.PERIPHERAL, _sisterPrinter);
+        _badConnector = new Connector(0, Connector.Type.PERIPHERAL, null);
     }
 
     @Test(expected=NullPointerException.class)
     public void Should_throw_validation_error_with_no_message_for_string_messages() throws NullPointerException {
-        sisterPrinter.recv((StringMessage)null, goodConnector);
+        _sisterPrinter.recv((StringMessage)null, _goodConnector);
     }
 
     @Test(expected=NullPointerException.class)
     public void Should_throw_validation_error_with_no_message_for_binary_messages() throws NullPointerException {
-        sisterPrinter.recv((BinaryMessage)null, goodConnector);
+        _sisterPrinter.recv((BinaryMessage)null, _goodConnector);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void Should_throw_validation_error_with_bad_connectors_for_string_messages() throws IllegalArgumentException {
-        sisterPrinter.recv(stringMessage, badConnector);
+        _sisterPrinter.recv(_stringMessage, _badConnector);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void Should_throw_validation_error_with_bad_connectors_for_binary_messages() throws IllegalArgumentException {
-        sisterPrinter.recv(binaryMessage, badConnector);
+        _sisterPrinter.recv(_binaryMessage, _badConnector);
     }
 
     @Test
     public void Should_appropriately_handle_recv_for_string_messages() {
-        sisterPrinter.recv(stringMessage, goodConnector);
+        _sisterPrinter.recv(_stringMessage, _goodConnector);
     }
 
     @Test
     public void Should_appropriately_handle_recv_for_binary_messages() {
-        sisterPrinter.recv(binaryMessage, goodConnector);
+        _sisterPrinter.recv(_binaryMessage, _goodConnector);
     }
 
 }

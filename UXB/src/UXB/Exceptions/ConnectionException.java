@@ -2,8 +2,6 @@ package UXB.Exceptions;
 
 import UXB.Connector;
 
-import java.sql.Connection;
-
 /**
  * Created by james on 9/26/16.
  */
