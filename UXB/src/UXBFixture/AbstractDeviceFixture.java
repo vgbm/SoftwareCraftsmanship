@@ -10,5 +10,15 @@ package UXBFixture;
 
 public class AbstractDeviceFixture {
 
+    public static class peerDevicesFixture {
 
+    }
+
+    public static class reachableDevicesFixture {
+
+    }
+
+    public static class isReachableFixture {
+
+    }
 }

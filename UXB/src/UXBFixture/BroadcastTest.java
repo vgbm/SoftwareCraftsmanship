@@ -18,6 +18,8 @@ import java.util.List;
 
 /**
  * Created by james on 9/23/16.
+ *
+ * Test of connector's recv
  */
 public class BroadcastTest {
 

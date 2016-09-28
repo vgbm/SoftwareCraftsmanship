@@ -67,6 +67,10 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         return new ArrayList<>(connectorList);
     }
 
+    public void setConnectors(List<Connector> connectorList) {
+        this.connectorList = new ArrayList<>(connectorList);
+    }
+
     @Override
     // returns a new connector for the device with the same type as the connector of a given index
     public Connector getConnector(int index) {
