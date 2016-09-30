@@ -1,10 +1,9 @@
 package UXBFixture;
 
-import UXB.AbstractDevice;
 import UXB.Connector;
 import UXB.Exceptions.ConnectionException;
+import UXB.Hub;
 import UXB.Peripherals.Printers.SisterPrinter;
-import UXB.Peripherals.VideoDevices.GoAmateur;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,87 +18,81 @@ import static org.junit.Assert.assertTrue;
  */
 public class ConnectorFixture {
 
-    private static Connector copyConnectorWithType(Connector connector, Connector.Type type) {
-        return new Connector(connector.getIndex(), type, connector.getDevice());
-    }
+    private static final List<Connector.Type> _peripheralTypeList = Arrays.asList(Connector.Type.PERIPHERAL, Connector.Type.PERIPHERAL);
+    private static final List<Connector.Type> _hubTypeList = Arrays.asList(Connector.Type.PERIPHERAL, Connector.Type.COMPUTER, Connector.Type.COMPUTER);
 
     public static class SetPeerFixtures {
 
-        private Connector _connector;
-        private final List<Connector.Type> _connTypeList = Arrays.asList(Connector.Type.PERIPHERAL);
+        private Connector _peripheralConn;
+        private Connector _hubPeripheralConn, _hubComputerConn1, _hubComputerConn2;
 
         @Before
         public void SetUp() {
 
-            SisterPrinter device = new SisterPrinter.Builder(1).connectors(_connTypeList).build();
+            SisterPrinter device = new SisterPrinter.Builder(1).connectors(_peripheralTypeList).build();
+            Hub hub = new Hub.Builder(1).connectors(_hubTypeList).build();
 
-            _connector = new Connector(0, Connector.Type.PERIPHERAL, device);
+            _peripheralConn = device.getConnector(0);
+            _hubPeripheralConn = hub.getConnector(0);
+            _hubComputerConn1 = hub.getConnector(1);
+            _hubComputerConn2 = hub.getConnector(2);
+
         }
 
         @Test (expected = NullPointerException.class)
         public void Should_error_when_setting_a_null_peer() throws ConnectionException {
-            _connector.setPeer(null);
+            _peripheralConn.setPeer(null);
         }
 
         @Test (expected = ConnectionException.class)
         public void Should_error_when_a_peer_already_exists() throws ConnectionException{
 
-            //need type to be different than the connector so we dont trigger an error unintentionally
-            Connector.Type newConnType = _connector.getType().equals(Connector.Type.PERIPHERAL)
-                                            ? Connector.Type.COMPUTER
-                                            : Connector.Type.PERIPHERAL;
-
-            Connector connectorWithPeer = ConnectorFixture.copyConnectorWithType(_connector, newConnType);
-
-            connectorWithPeer.setPeer(_connector);
+            //must use the opposite connector type
+            _peripheralConn.setPeer(_hubComputerConn1);
 
             //should error the second time around since a peer already exists
-            connectorWithPeer.setPeer(_connector);
+            _peripheralConn.setPeer(_hubComputerConn2);
         }
 
 
         @Test (expected = ConnectionException.class)
         public void Should_error_when_the_peer_type_is_the_same() throws ConnectionException{
-            Connector connectorWithSameType = copyConnectorWithType(_connector, _connector.getType());
-            connectorWithSameType.setPeer(_connector);
+            _peripheralConn.setPeer(_hubPeripheralConn);
         }
 
         @Test (expected = ConnectionException.class)
         public void Should_error_when_setting_the_peer_creates_a_cycle() throws ConnectionException{
 
-            SisterPrinter sisterPrinter = new SisterPrinter.Builder(1).connectors(_connTypeList).build();
-            Connector connector1 = new Connector(0, Connector.Type.PERIPHERAL, sisterPrinter);
+            _hubComputerConn1.setPeer(_peripheralConn);
+            _peripheralConn.setPeer(_hubComputerConn1);
 
-            GoAmateur goAmateur = new GoAmateur.Builder(1).connectors(_connTypeList).build();
-            Connector connector2 = new Connector(0, Connector.Type.COMPUTER, goAmateur);
-
-            connector1.setPeer(connector2);
-            //setting the 1st connector's device's connector list
-            ((AbstractDevice)connector1.getDevice()).setConnectors(Arrays.asList(connector1));
-
-            //should error since this would create a cycle between 1 and 2
-            connector2.setPeer(connector1);
         }
     }
 
     public static class IsReachableFixtures {
 
-        private final List<Connector.Type> _connTypeList = Arrays.asList(Connector.Type.PERIPHERAL);
-        private final SisterPrinter _sisterPrinter = new SisterPrinter.Builder(1).connectors(_connTypeList).build();
-        private Connector _connector1 = new Connector(0, Connector.Type.PERIPHERAL, _sisterPrinter);
-        private final GoAmateur _goAmateur = new GoAmateur.Builder(1).connectors(_connTypeList).build();
-        private Connector _connector2 = new Connector(0, Connector.Type.COMPUTER, _goAmateur);
+        private Connector _peripheralConn;
+        private Connector _hubComputerConn;
+
+        @Before
+        public void SetUp() throws ConnectionException{
+
+            SisterPrinter device = new SisterPrinter.Builder(1).connectors(_peripheralTypeList).build();
+            Hub hub = new Hub.Builder(1).connectors(_hubTypeList).build();
+
+            _peripheralConn = device.getConnector(0);
+            _hubComputerConn = hub.getConnector(1);
+
+            _peripheralConn.setPeer(_hubComputerConn);
+        }
 
         @Test
         public void Should_be_reachable() throws ConnectionException{
-            Connector tempConnector = copyConnectorWithType(_connector1, _connector1.getType());
-            tempConnector.setPeer(_connector2);
-            _sisterPrinter.setConnectors(Arrays.asList(tempConnector));
-            assertTrue(tempConnector.isReachable(_connector2.getDevice()));
+            assertTrue(_peripheralConn.isReachable(_hubComputerConn.getDevice()));
         }
         @Test
         public void Should_not_be_reachable() throws ConnectionException{
-            assertFalse(_connector1.isReachable(_connector2.getDevice()));
+            assertFalse(_hubComputerConn.isReachable(_peripheralConn.getDevice()));
         }
     }
 }
