@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -44,7 +45,6 @@ public class ConnectorFixture {
             _peripheralConn.setPeer(null);
         }
 
-        //TODO Shouldn't throw an error?
         @Test (expected = ConnectionException.class)
         public void Should_error_when_a_peer_already_exists() throws ConnectionException{
 
@@ -63,10 +63,15 @@ public class ConnectorFixture {
 
         @Test (expected = ConnectionException.class)
         public void Should_error_when_setting_the_peer_creates_a_cycle() throws ConnectionException{
-
             _hubComputerConn1.setPeer(_peripheralConn);
-            _peripheralConn.setPeer(_hubComputerConn1);
+            _peripheralConn.setPeer(_hubComputerConn2);
+        }
 
+        @Test
+        public void Should_properly_set_peer() throws ConnectionException{
+            _hubComputerConn1.setPeer(_peripheralConn);
+            assertEquals(_hubComputerConn1.getPeer().get(), _peripheralConn);
+            assertEquals(_peripheralConn.getPeer().get(), _hubComputerConn1);
         }
     }
 
