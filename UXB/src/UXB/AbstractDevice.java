@@ -97,7 +97,7 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
     //Allowing message to be null as the error will be picked up by validateRecvArguments
     protected void sendMessageToAllPeersExceptIncomingConnector(Message message, Connector incomingConnector) {
         this.getConnectors().stream()
-                .filter(conn -> conn.getPeer().isPresent() && !conn.getPeer().equals(incomingConnector))
+                .filter(conn -> conn.getPeer().isPresent() && !conn.equals(incomingConnector))
                 .map(connsWithPeers -> connsWithPeers.getPeer().get()) // grab the peer connectors
                 .forEach(peerConns -> peerConns.recv(message));
     }

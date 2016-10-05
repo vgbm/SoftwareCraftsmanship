@@ -24,7 +24,7 @@ public class SisterPrinter extends AbstractPrinter<SisterPrinter.Builder> {
         System.out.println("Sister printer has printed the string: "
                             + message.getMessage()
                             + "\nSerial number: "
-                            + getSerialNumber().toString());
+                            + getSerialNumber().get().toString());
     }
 
     public void recv(BinaryMessage message, Connector connector) {
