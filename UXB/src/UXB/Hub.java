@@ -27,16 +27,22 @@ public class Hub extends AbstractDevice<Hub.Builder> {
         return DeviceClass.HUB;
     }
 
-    public void recv(StringMessage message, Connector connector) {
-        validateRecvArguments(message, connector);
 
-        System.out.println("Recv not yet supported");
+    //have both of the recv methods just forward to handle recv
+    //not sure if we are allowed to just remove the useless recvs since they are identical
+    //or if he wants us to leave it
+    public void recv(StringMessage message, Connector connector) {
+        handleRecv(message, connector);
     }
 
     public void recv(BinaryMessage message, Connector connector) {
-        validateRecvArguments(message, connector);
+        handleRecv(message, connector);
+    }
 
-        System.out.println("Recv not yet supported");
+    //performs the functions that both message types of recvs share
+    private void handleRecv(Message message, Connector connector) {
+        validateRecvArguments(message, connector);
+        sendMessageToAllPeersExceptIncomingConnector(message, connector);
     }
 
 

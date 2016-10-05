@@ -44,6 +44,7 @@ public class ConnectorFixture {
             _peripheralConn.setPeer(null);
         }
 
+        //TODO Shouldn't throw an error?
         @Test (expected = ConnectionException.class)
         public void Should_error_when_a_peer_already_exists() throws ConnectionException{
 
@@ -82,7 +83,6 @@ public class ConnectorFixture {
 
             _peripheralConn = device.getConnector(0);
             _hubComputerConn = hub.getConnector(1);
-
             _peripheralConn.setPeer(_hubComputerConn);
         }
 
@@ -92,7 +92,8 @@ public class ConnectorFixture {
         }
         @Test
         public void Should_not_be_reachable() throws ConnectionException{
-            assertFalse(_hubComputerConn.isReachable(_peripheralConn.getDevice()));
+            Hub unreachableHub = new Hub.Builder(1).connectors(_hubTypeList).build();
+            assertFalse(unreachableHub.isReachable(_peripheralConn.getDevice()));
         }
     }
 }

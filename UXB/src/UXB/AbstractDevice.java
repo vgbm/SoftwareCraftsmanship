@@ -92,6 +92,16 @@ public abstract class AbstractDevice<T extends AbstractDevice.Builder<T>> implem
         }
     }
 
+    //forwards message to all peer connectors, barring incomingConnector
+    //if incomingConnector is null, this should send the message to all peers
+    //Allowing message to be null as the error will be picked up by validateRecvArguments
+    protected void sendMessageToAllPeersExceptIncomingConnector(Message message, Connector incomingConnector) {
+        this.getConnectors().stream()
+                .filter(conn -> conn.getPeer().isPresent() && !conn.getPeer().equals(incomingConnector))
+                .map(connsWithPeers -> connsWithPeers.getPeer().get()) // grab the peer connectors
+                .forEach(peerConns -> peerConns.recv(message));
+    }
+
     public Set<Device> peerDevices() {
         return connectorList.stream()
                 .filter(connector -> connector.getPeer().isPresent()) //filters out any empty peers

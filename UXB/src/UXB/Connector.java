@@ -64,6 +64,7 @@ public final class Connector {
         validatePeerConnector(peer);
 
         this.peer = Optional.of(peer);
+        peer.peer = Optional.of(this);
     }
 
     //throws any ConnectionExceptions that setting the peer would cause
@@ -79,7 +80,7 @@ public final class Connector {
 
         //if we can reach this device through connections from the peer
         //then there would a loop present when we set the peer, so an error should be thrown
-        if( peer.device.isReachable(device) ) {
+        if( peer.isReachable(device) ) {
             throw new ConnectionException(this, ConnectionException.ErrorCode.CONNECTION_CYCLE);
         }
 

@@ -2,8 +2,10 @@ package UXB.Peripherals.VideoDevices;
 
 import UXB.Connector;
 import UXB.Messages.BinaryMessage;
+import UXB.Messages.Message;
 import UXB.Messages.StringMessage;
 
+import java.math.BigInteger;
 import java.util.Collection;
 
 /**
@@ -28,8 +30,8 @@ public class GoAmateur extends AbstractVideo<GoAmateur.Builder> {
     public void recv(BinaryMessage message, Connector connector) {
         validateRecvArguments(message, connector);
 
-        System.out.println("GoAmateur is not yet active: "
-                            + message.getMessage());
+        Message messageToSend = new BinaryMessage(BigInteger.valueOf(293));
+        sendMessageToAllPeersExceptIncomingConnector(messageToSend, null); //sending message to incoming conn as well
     }
 
 
