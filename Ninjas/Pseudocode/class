@@ -1,0 +1,18 @@
+class NinjaSpotter:
+
+	knownObjects <- empty hash map of objects to empty hash sets
+
+	#adds x to the knownObjects table
+	def CREATE(x):
+		if x is not a key in the knownObjects map
+			insert key x and value empty hash set into knownObjects 
+		endif
+
+
+	#add x and y as opponents
+	def Oppose(x,y):
+			
+	
+	#return whether x and y are on the same side, diff sides, or cannot be established
+	def Opponents(x,y):
+		 
