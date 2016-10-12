@@ -25,38 +25,38 @@ class NinjaSpotter:
 
 	
 	#return whether x and y are on the same side, diff sides, or cannot be established
-	#Has a time complexity of O(V+E)
+	#Has a time complexity of O(V+E) due to the Breadth First Search
 	def Opponents(x,y):
-		pathToY <- BreadthFirstSearch(x,y) which yields the objects on a shortest path to y from x including y; returns an empty set if there is no path
+		depthOfPathToY <- BreadthFirstSearch(x,y) which yields the depth of a shortest path to y from x including y but not x; returns -1 if there is no path
 
-		if pathToY is the empty set:
+		if depthOfPathToY:
 			return that this property cannot be established
 
-		else if the number of objects in the pathToY is odd:
+		else if depthOfPathToY is odd:
 			return that x and y are opponents
 		endif
 
-		#covers if the path length is even
+		#covers if the path depth is even
 		return that x and y are not opponents
 		
-
-	#Correctness for odd/even length of shortest path indicating opponent status
+====================================================================================
+	#Correctness for odd/even depth of shortest path indicating opponent status
 	
 	#We know that the map of known objects stores opponents
-	#Base case: x and y are directly opponents; the path from x to y is {y}; object count is odd, thus x and y are opponents
+	#Base case: x and y are directly opponents; the path from x to y is is of depth 1 (direct connection) which is odd, thus x and y are opponents
 	
 	#P(n) -> P(n+1):
 	#Assume there is a shortest path x to y through x to u and u to y such that the even/odd scheme works for u to y and x directly connects to u 	(x-u-...-y)
-	#path size increases by 1, toggling the object count between even and odd; since u~y is the shortest path, its length is deterministic
+	#path depth increases by 1 due to the direct connection x-u, toggling the object count between even and odd; since u~y is the shortest path, its depth is deterministic
 		
-	#Assume u is opponents with y; Due to 1st assumptio, u~y has an odd number of objects
+	#Assume u is opponents with y; Due to 1st assumption, u~y has an odd depth
 		#Since x is opponents with u, then x should NOT be opponents with y. 
-		#Since the even / odd scheme works for u~y, the object count toggles from odd to even. Therefore x and y are NOT opponents.
+		#Since the even / odd scheme works for u~y, the depth toggles from odd to even. Therefore x and y are NOT opponents.
 		#QED P(n+1)
 
-	#Assume u is NOT an opponent with y; Due to 1st assumption, u~y has an even number of objects
-		#Since x is opponents with u, then x should be opponents with y. 
-		#Since the even / odd scheme works for u~y, the object count toggles from even to odd. Therefore x and y are opponents.
+	#Assume u is NOT an opponent with y; Due to 1st assumption, u~y has an even depth
+		#Since x is NOT opponents with u, then x should be opponents with y. 
+		#Since the even / odd scheme works for u~y, the toggles from even to odd. Therefore x and y are opponents.
 		#QED P(n+1)
 
 
@@ -64,6 +64,17 @@ class NinjaSpotter:
 
 	#Assume	it does not and there exists a shorter path x-...-y; each edge has a weight of 1
 	#A path can be taken from x to y that yields a shorter distance to y
-	#Contradiction: Breadth first searches have the property that during exploration, distance from the root strictly increase. 
+	#Contradiction: Breadth first searches have the property that during exploration, distance from the root strictly increase. (must explore all of depth d before going to d+1)
 		If a shorter path to y exists, then either the distance would have to decrease, violating this property or the path would have been discovered earlier
 	#Thus, Breadth First Search yields the shortest path
+=====================================================================================
+
+	#Since breadthFirstSearch is a well-know algorithm, I just want to explain my variant of it in a high level way
+	#This should give a better idea of my intent for the algorithm, but shouldnt explain how breadth first searches work
+	def BreadthFirstSearch(x,y):
+		depth <- -1 #-1 indicates no y found
+		
+		perform a breadth first search, keeping track of what depth we are on at each iteration; only examine nodes reachable from x
+		when y is found, set depth to the depth level it was found at and stop searching, otherwise keep going
+		
+		return depth
