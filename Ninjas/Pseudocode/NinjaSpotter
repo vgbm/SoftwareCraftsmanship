@@ -29,7 +29,7 @@ class NinjaSpotter:
 	def Opponents(x,y):
 		depthOfPathToY <- BreadthFirstSearch(x,y) which yields the depth of a shortest path to y from x including y but not x; returns -1 if there is no path
 
-		if depthOfPathToY:
+		if depthOfPathToY is -1:
 			return that this property cannot be established
 
 		else if depthOfPathToY is odd:
