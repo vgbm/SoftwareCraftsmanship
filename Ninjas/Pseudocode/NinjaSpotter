@@ -1,19 +1,27 @@
 class NinjaSpotter:
 
-	#Hash map should be used for keeping object lookup performance strong
+	#Hash map and hash set should be used for keeping object lookup performance strong
 	knownObjectsToOpponents <- empty hash map of objects to empty hash sets
 
 	#adds x to the known objects map
+	#RETURN: boolean indicating if x was created or not
 	def CREATE(x):
 		if x is not a key in the knownObjectsToOpponents map:
 			insert key x and value empty hash set into knownObjectsToOpponents
+			return true
 		endif
+		
+		return false
 
 
 	#add x and y as opponents
 	#assumes x and y are in the map already
+	#RETURN: void
 	def Oppose(x,y):
-		if Opponents(x,y) yields that x and y are not opponents:
+		#This is used to bypass the opponents operation if it is clear that x and y cannot be opponents since one did not exist yet
+		hadToCreateXOrY <- CREATE(x) OR CREATE(Y)
+
+		if hadToCreateXOrY is false AND Opponents(x,y) yields that x and y are not opponents:
 			report a logic error and halt execution
 		endif
 
@@ -26,6 +34,7 @@ class NinjaSpotter:
 	
 	#return whether x and y are on the same side, diff sides, or cannot be established
 	#Has a time complexity of O(V+E) due to the Breadth First Search
+	#RETURN: boolean type which can also have a null state to cover the 3 plausible states: True -> Opponents, False -> not opponents, null -> cannot tell
 	def Opponents(x,y):
 		depthOfPathToY <- BreadthFirstSearch(x,y) which yields the depth of a shortest path to y from x including y but not x; returns -1 if there is no path
 
@@ -71,6 +80,7 @@ class NinjaSpotter:
 
 	#Since breadthFirstSearch is a well-know algorithm, I just want to explain my variant of it in a high level way
 	#This should give a better idea of my intent for the algorithm, but shouldnt explain how breadth first searches work
+	#RETURN: integer indicating depth to reach y or an indicator (-1) if y cannot be reached
 	def BreadthFirstSearch(x,y):
 		depth <- -1 #-1 indicates no y found
 		
