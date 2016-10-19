@@ -1,0 +1,56 @@
+<project name="Spy">
+
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="report.dir" value="${build.dir}/junitreport"/>
+    
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+	  <classpath path="${ant.home}/lib/jacocoant.jar"/>
+     </taskdef>
+
+
+     <!--     <path id="hamcrest.classpath">
+        <pathelement location="${ant.home}/lib/hamcrest-core-1.3.jar"/>
+    </path> -->
+
+
+    <!--   ant clean : remove generated files -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${report.dir}"/>
+    </target>
+
+
+    <!--   ant build : compile the src  -->
+    <target name="build">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" includeAntRuntime="yes"/>
+    </target>
+
+    
+    <!--   ant test : run unit tests -->
+    <target name="test" depends="build">
+	<junit printsummary="yes">
+	    <classpath>
+		<path location="${classes.dir}"/>
+	    </classpath>
+	    <formatter type="plain" usefile="false"/>
+	    <batchtest fork="yes">
+		<fileset dir="${classes.dir}" includes="*Tester*.class" />
+	    </batchtest>
+	</junit>
+    </target>
+
+
+    <!--   ant report : generate the JUnit and code coverage reports  -->
+    <target name="report" depends="test">
+        <mkdir dir="${report.dir}"/>
+        <junitreport todir="${report.dir}">
+            <fileset dir="${report.dir}" includes="TEST-*.xml"/>
+            <report todir="${report.dir}"/>
+        </junitreport>
+    </target>
+
+</project>

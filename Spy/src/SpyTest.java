@@ -98,6 +98,12 @@ public class SpyTest {
         }
 
         @Test
+        public void Should_be_opponents_when_depth_to_object_is_odd_and_deeper_than_3() {
+            _spy.oppose(A,E);
+            assertTrue(_spy.opponents(A,E).get());
+        }
+
+        @Test
         public void Should_not_be_opponents_when_depth_to_object_is_even(){
             assertFalse(_spy.opponents(A,C).get());
         }
