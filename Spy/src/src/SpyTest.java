@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 public class SpyTest {
 
     //using integer objects to test, since we need objects
-    private static final Spy<Integer> _spy = new Spy<>();
+    private static Spy<Integer> _spy = new Spy<>();
     private static final Integer A = 1,
                                 B = 2,
                                 C = 3,
@@ -34,17 +35,14 @@ public class SpyTest {
             assertFalse(didCreate);
         }
 
+        @After
+        public void TearDown() {
+            _spy = new Spy<>();
+        }
+
     }
 
     public static class OpposeTester {
-
-        @Before
-        public void SetUp() {
-            _spy.create(E);
-            _spy.oppose(A,B);
-            _spy.oppose(B,C);
-            _spy.oppose(C,D);
-        }
 
         @Test
         public void Should_create_entry_for_new_objects(){
@@ -66,6 +64,11 @@ public class SpyTest {
             _spy.oppose(A,B);
             _spy.oppose(B,C);
             _spy.oppose(A,C);
+        }
+
+        @After
+        public void TearDown() {
+            _spy = new Spy<>();
         }
     }
 
@@ -97,6 +100,11 @@ public class SpyTest {
         @Test
         public void Should_not_be_opponents_when_depth_to_object_is_even(){
             assertFalse(_spy.opponents(A,C).get());
+        }
+
+        @After
+        public void TearDown() {
+            _spy = new Spy<>();
         }
     }
 }

@@ -44,6 +44,7 @@ public class Spy <T> {
         Optional<Boolean> areOpponents = opponents(x, y);
         return areOpponents.isPresent() && !areOpponents.get();
     }
+
     public Optional<Boolean> opponents(T x, T y){
         int depth = depthToY(x, y);
 
@@ -61,8 +62,8 @@ public class Spy <T> {
         boolean wasFound = false;
         int depth = 0;
 
-        ArrayDeque<T> searchQueue = new ArrayDeque<T>();
-        Set<T> inspectedObjects = new HashSet<T>();
+        ArrayDeque<T> searchQueue = new ArrayDeque<>();
+        Set<T> inspectedObjects = new HashSet<>();
 
         searchQueue.add(x);
 
@@ -76,15 +77,19 @@ public class Spy <T> {
                 break breadthFirstSearchLoop;
             }
 
-            for (T neighbor : knownObjectsToOpponents.get(current)) {
-                boolean needsToBeChecked = inspectedObjects.add(neighbor);
-                if( needsToBeChecked) {
-                    searchQueue.add(neighbor);
-                }
-            }
+            addNeighbors(current, searchQueue, inspectedObjects);
         }
 
         return wasFound? depth : -1;
+    }
+
+    private void addNeighbors(T current, ArrayDeque<T> searchQueue, Set<T> inspectedObjects) {
+        for (T neighbor : knownObjectsToOpponents.get(current)) {
+            boolean needsToBeChecked = inspectedObjects.add(neighbor);
+            if( needsToBeChecked) {
+                searchQueue.add(neighbor);
+            }
+        }
     }
 
     //delegate for testing purposes
