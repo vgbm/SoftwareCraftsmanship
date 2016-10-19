@@ -10,9 +10,14 @@
      </taskdef>
 
 
-     <!--     <path id="hamcrest.classpath">
+    <path id="hamcrest.classpath">
         <pathelement location="${ant.home}/lib/hamcrest-core-1.3.jar"/>
-    </path> -->
+    </path>
+    
+    <path id="junit.classpath">
+        <pathelement location="${ant.home}/lib/junit-4.12.jar"/>
+        <pathelement location="${ant.home}/lib/junit.jar"/>
+    </path>
 
 
     <!--   ant clean : remove generated files -->
