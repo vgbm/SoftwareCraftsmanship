@@ -30,9 +30,12 @@ $ANT_HOME/lib must contain (see Ant-JUnit and JaCoCo installation guides):
     <!--   Directories and files with the reports on unit test and code coverage -->
     <property name="report.dir" value="report"/>
     <property name="junit.dir" value="${report.dir}/junit"/>
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+	  <classpath path="${ant.home}/lib/jacocoant.jar"/>
+     </taskdef>
 
 
-    <!--   Additional jar that may be needed for properly runnign junit -->
+    <!--   Additional jar that may be needed for properly running junit -->
     <path id="hamcrest.classpath">
         <pathelement location="${ant.home}/lib/hamcrest-core-1.3.jar"/>
     </path>
